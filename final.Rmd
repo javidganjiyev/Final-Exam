@@ -63,7 +63,7 @@ The source of the used data set is the website [OECD](https://www.oecd.org/). Th
 
 ```{r echo=FALSE}
 library(tidyverse)
-mydata <- read_csv("./data/death-rates-from-air-pollution.csv") %>% 
+mydata <- read_csv("./data/mortaly-rates-associated-with-air-pollution.csv") %>% 
   janitor::clean_names()
 
 names(mydata)[4:7] <- c('air_pol', 'hh_air_pol', 'ambient_pm', 'ambient_op')
