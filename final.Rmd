@@ -1,0 +1,148 @@
+---
+title: "Air Pollution and Death Rates Around the World"
+author: 
+  - Alakbarli, Hadija[^1]
+bibliography: ./biblio/biblio.bib
+csl: ./csl/apa.csl
+header-includes:
+  - \usepackage{polyglossia}
+  - \setmainlanguage{english}
+  - \usepackage{booktabs}
+  - \usepackage{caption} 
+  - \captionsetup[table]{skip=10pt}
+output:
+  bookdown::pdf_document2:
+    fig_caption: yes
+    fig_height: 3
+    fig_width: 4
+    keep_tex: no
+    latex_engine: xelatex
+    number_sections: yes
+    toc: no
+geometry: margin=1in
+link-citations: yes
+urlcolor: blue
+fontsize: 12pt
+biblio-style: apalike
+abstract: |
+  The purpose of the paper is to see whether air pollution affects all of the world equally or not, and does this depend on the development rate of the countries and regions? First, by doing research in [Google Scholar](https://scholar.google.com/) we see that air pollution takes its place in the first rows among the factors that affect human health, and with this cause their deaths. It sometimes may not be the direct reason of human deaths, but it may be one the main leading factors. The data set we are working on is from [Kaggle](https://www.kaggle.com/datasets/pavan9065/air-pollution), and all the tests and analysis were done on this data set.  We made some operations on the raw data to make it more case-oriented and more readable. 54 observations of Canada and Thailand and 6 variables were used during the research. In this case, Canada represents the developed countries and Thailand underdeveloped ones. The summary tables are done for two data sets which are extracted from the main data set. The change in death through years in populations is shown in separate figures. To answer our research question we used visual representations, and Ansari-Bradley test to check the variances. After confirmation that we could use a standard two-sample t-test, we did the hypothesis testing, more precisely two-sample t-test. As the results of the test show us, the p-value = 1.025e-15 is less than 0.05, therefore meaning that the  means of our samples are highly different, so we conclude that the answer to our research question is that the pollution and death rates do depend on the level of development of the countries and regions. The graphical representation is to see the difference more clearly and easily and to better understand the results of the whole tests and analysis. In the future, this work can be improved if the data on air quality and level of development will be available.
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+<!-- ======================================================================= -->
+<!-- ============================== FOOTNOTES ============================== -->
+<!-- ======================================================================= -->
+[^1]: 20080846
+
+# Introduction
+How does air pollution affect human life? Many researchers tried to answer this question, and while some of them were quite successful in their mission, some of them couldn't be as lucky. The increasing air pollution causes more and more human deaths over time. This paper's purpose is to show the effects of air quality on human health. Air pollution remains to be one of the biggest threats in the world. It is one of the major global health risks, causing significant excess mortality. As time goes on environment suffers from people more and more, and with the help of academic studies which are available on Google Scholar, and are mentioned in this paper, the aim is to bring to your attention the most affected regions and countries, the diseases this pollution can cause, the state of the world in the near future. But we don't know if this pollution and rates are the same around the world, if it depends on the level of development of the country/region, the purpose of this paper is to do the analysis to find out whether it's the same or not. 
+
+## Literature Review
+
+Acids, organic compounds, metals, and soil or dust particles make up PM, which is a complex mixture of extremely small particles and liquid droplets. PM exposure has been linked to an increase in morbidity and mortality in studies. While the increased daily hazards from PM exposure are minor for any individual, the costs of the global healthcare burden when applied to populations are astounding. According to the World Health Organization, PM2.5 causes nearly 800,000 premature deaths every year, making it the world's 13th largest cause of death [@anderson2012clearing,]. While people might think that air pollution reasons only depend on manmade sources, it is worth a mention that there are also natural sources such as volcanoes, fires, dust storms, and aerosolized sea salt. In some scenarios/periods, the change in future ozone concentrations relative to 2000 is associated with excess global premature mortality, particularly in RCP8.5 in 2100 (316 thousand deaths year−1), which is likely driven by the large increase in methane emissions and the net effect of climate change projected in this scenario [@silva2016effect,]. Winds, vertical mixing, and precipitation all impact the movement and dispersion of air pollutants in the atmosphere, and all of these factors are expected to change as the climate changes. According to recent research, if anthropogenic air pollution emissions remain constant, ozone levels in inhabited areas would tend to rise in future climatic scenarios [@kinney2018interactions,]. As was reached from [@lelieveld2020loss,] research tobacco use, unhealthy diets, and being overweight are major health risk factors, as are hypertension, diabetes, high cholesterol, and air pollution. Air pollution shows itself by causing effects on the respiratory system, allergy and other effects on the immune system, cancer and effects on reproduction, effects on the skin and mucous membranes in the eyes, nose, and throat, sensory effects on the nervous system, effects on the cardiovascular system, systemic effects on the liver, kidney and gastrointestinal system [@berglund1992effects,]. East Asia (35 percent) and South Asia (32 percent) have the highest rates of air pollution mortality, followed by Africa (11 percent) and Europe (9 percent). Excess deaths generally increase with age, but child mortality (\<5 years) can be high in low-income countries, especially in Africa and South Asia, and is associated with the LRI. Even though sometimes air pollution is not the direct reason for death it is likely to be the main leading risk factor. Fossil fuel consumption, which includes emissions from power generation, industry, traffic, and residential energy use, is the largest source of air pollution. Air pollution spikes, such as those seen in Donora, Pennsylvania, in 1948 and London, England, in 1952, have been found to cause discomfort, disease, and even death. As a result, one connection between air pollution and health is the acute response, in which high levels of air pollutants have an immediate impact on health. In addition, benzopyrene has been proven to cause cancer in lab animals, and other studies have indicated that acute irritation can increase the symptoms of a chronic respiratory condition, possibly causing it to worsen [@lave2013air,]. It is an undeniable fact that air pollution may lead to the end of humanity, this does not mean that all people will die, but the environment they live in will be unbearable. As can be seen from all the mentioned studies, there is a direct correlation between air pollution and human lifespan, and this is an inescapable and inevitable fact. It is not within the power of anyone to stop this, but we can all do our best to slow down this process and leave a better world for future generations.
+
+# Data
+The source of the used data set is the website [Kaggle](https://www.kaggle.com/datasets/pavan9065/air-pollution). This data set has 6468 observations and 7 variables. The type of the data is quantitative. Used variables from the data set are; Entity, Year, Air Pollution, Household Air Pollution, Ambient Particulate Matter, Ambient Ozone Pollution. Used number of observations are 54, which are observations through years of Canada and Thailand. These observations are grouped between themselves and separately. Changed variable names are to make the calculations and analysis easier. You can see the summary tables for Sweden(Table \ref{tab:summary_sweden}) and China(Table \ref{tab:summary_china}). Also, death rates through years figures for Sweden(Figure \ref{fig:airpoldrswe}) and China(Figure \ref{fig:airpoldrchi}) show that the deaths are decreasing in both countries as the time goes on due to the development of technologies and medicine.
+
+```{r echo=FALSE}
+library(tidyverse)
+mydata <- read_csv("./data/death-rates-from-air-pollution.csv") %>% 
+  janitor::clean_names()
+
+names(mydata)[4:7] <- c('air_pol', 'hh_air_pol', 'ambient_pm', 'ambient_op')
+
+mydata1 <- mydata %>% filter(entity == 'Sweden')
+mydata2 <- mydata %>% filter(entity == 'China')
+mydata3 <- full_join(mydata1, mydata2)
+
+```
+
+```{r echo=FALSE, results='asis'}
+library(xtable) 
+library(summarytools)
+st_options(lang = "en")
+
+mydata1 %>%
+  select(air_pol:ambient_op) %>% 
+  descr(stats = c("mean", "sd", "min", "med", "max"), transpose = TRUE) %>% 
+  xtable(caption = "Summary Statistics - Sweden",
+         label = "tab:summary_sweden",
+         align = c("l", "c", "c", "c", "c", "c")) %>% 
+  print(booktabs = TRUE, comment = FALSE, caption.placement = "top")
+```
+
+
+```{r thai, echo=FALSE, results='asis'}
+mydata2 %>%
+  select(air_pol:ambient_op) %>% 
+  descr(stats = c("mean", "sd", "min", "med", "max"), transpose = TRUE) %>% 
+  xtable(caption = "Summary Statistics - China",
+         label = "tab:summary_china",
+         align = c("l", "c", "c", "c", "c", "c")) %>% 
+  print(booktabs = TRUE, comment = FALSE, caption.placement = "top")
+```
+
+```{r airpoldrswe, echo=FALSE, fig.cap='Air Pollution Change Through Years in Sweden'}
+mydata1 %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(year, air_pol) +
+  geom_smooth(method = "lm", color = "yellow") +
+  geom_point(color = "gold") +
+  geom_line(color = "gold") +
+  labs(x = "Year",
+       y = "Death: Air Pollution", 
+       title = "Air Pollution Deat Rates: Sweden")
+```
+
+```{r airpoldrchi, echo=FALSE, fig.cap='Air Pollution Change Through Years in China'}
+mydata2 %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(year, air_pol) +
+  geom_smooth(method = "lm", color = "lightcoral") +
+  geom_point(color = "red") +
+  geom_line(color = "red") +
+  labs(x = "Year",
+       y = "Death: Air Pollution", 
+       title = "Air Pollution Deat Rates: China")
+```
+
+
+
+
+# Methods and Data Analysis
+From visual inspection (Figure \ref{fig:count-airpol}) it is clear that the data is not normally distributed. We use the nonparametric Ansari-Bradley test and get a p-value=1, from which we conclude that the null hypothesis should be accepted and that the variances are equal. As a result of the Ansari-Bradley test, we infer that it is convenient to use a two-sample t-test. Two-sample t-test results were significant, and we should conclude that air pollution death rates in Canada and Thailand are hardly ever equal. The t-test is used to get a sense of the difference between means of populations, which are Canada and Thailand. These two samples meet all the requirements to do the t-test. With a p-value = 1.025e-15, we infer that the null hypothesis should be rejected, and the means of our populations are not close.  Boxplots (Figure \ref{fig:sweden-china}) are clearly showing these results graphically. Also, in the boxplots, you can see the median, 25th and 75th percentiles, maximum and minimum points of the data. There is a noticeable difference between the values of different samples.
+
+
+```{r count-airpol, echo=FALSE, results='asis', fig.cap='Count of Air Pollution Deaths in Sweden and China' }
+ggplot(mydata3) +
+  aes(x = air_pol, fill = entity) +
+  labs(x = "Air Pollution", 
+       y = "Count") +
+  geom_histogram(binwidth = 5, alpha = 0.65) +
+  scale_fill_manual(values = c("Sweden" = "gold",
+                               "China" = "maroon"))
+```
+
+```{r sweden-china, echo=FALSE, fig.cap="Sweden and China: Air Pollution"}
+mydata3 %>% 
+  na.omit() %>% 
+  ggplot(aes(x = entity, y = air_pol))+
+  geom_boxplot( color = "skyblue", fill = "navy") +
+  labs(x = "Entity",
+       y = "Air Pollution",
+       title = "Air Pollution in Entities") 
+```
+
+# Conclusion
+To sum up, by using two-sample t-test method we get, that results were significant, and we should consider that the pollution is not nearly the same in Canada and Thailand. These two countries are from different continents, and they have different levels of development, so the results make us think that air pollution affects human health in different countries and regions differently depending on the level of development of the country. Therefore, we see that air pollution shows itself mostly in underdeveloped countries and in the industrial centers of the world, which are usually poor countries. By this, our research question is sufficiently responded to. This work could be improved in a way that the comparisons will be held between whole continents, or between the groups of developed and underdeveloped countries. Also, by having the data of air quality and level of development of the countries and regions this research might be improved.
+
+
+
+\newpage
+# References {#references}
+<div id="refs"></div>
+
